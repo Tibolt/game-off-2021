@@ -1,20 +1,225 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://src/actors/player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/actors/player_anim.png" type="Texture" id=2]
+[ext_resource path="res://assets/objects/axe.png" type="Texture" id=3]
+[ext_resource path="res://src/other/Hitbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/other/hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/other/PlayerStats.tscn" type="PackedScene" id=6]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="Animation" id=1]
+resource_name = "slash"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Node2D:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.25, 0.4, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -80.0, -80.0, 120.0, 120.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Node2D/axe_sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.25, 0.4, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 17.0, 17.0, -8.6, -8.6, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hitbox/hitbox_shape:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.25, 0.55 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 3.99496
+
+[sub_resource type="Animation" id=3]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 3, 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=4]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 7, 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 9, 10, 11, 12, 13, 14 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 21, 22, 23, 24, 25, 26 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "attack"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "run"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "run_attack"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachine" id=19]
+states/attack/node = SubResource( 7 )
+states/attack/position = Vector2( 1125, 140 )
+states/idle/node = SubResource( 8 )
+states/idle/position = Vector2( 910, 140 )
+states/run/node = SubResource( 9 )
+states/run/position = Vector2( 712, 140 )
+states/run_attack/node = SubResource( 10 )
+states/run_attack/position = Vector2( 813, 251.989 )
+transitions = [ "run", "idle", SubResource( 11 ), "idle", "run", SubResource( 12 ), "run", "run_attack", SubResource( 13 ), "run_attack", "run", SubResource( 14 ), "idle", "run_attack", SubResource( 15 ), "run_attack", "idle", SubResource( 16 ), "idle", "attack", SubResource( 17 ), "attack", "idle", SubResource( 18 ) ]
+start_node = "idle"
+graph_offset = Vector2( 3.32296e-05, -47.5224 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=20]
+
+[sub_resource type="CapsuleShape2D" id=21]
+radius = 4.05717
+height = 2.08437
 
 [node name="Player" type="KinematicBody2D"]
+collision_mask = 4
 script = ExtResource( 1 )
-speed = 70
-friction = 100
+
+[node name="axe" type="Node2D" parent="."]
+position = Vector2( 1.33292, -6.04466 )
+
+[node name="Node2D" type="Node2D" parent="axe"]
+
+[node name="axe_sprite" type="Sprite" parent="axe/Node2D"]
+position = Vector2( 3.1452, -1.63987 )
+texture = ExtResource( 3 )
+
+[node name="AxeAnimationPlayer" type="AnimationPlayer" parent="axe"]
+anims/slash = SubResource( 1 )
+
+[node name="Hitbox" parent="axe" instance=ExtResource( 4 )]
+collision_layer = 0
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0.25, -8.23087 )
-scale = Vector2( 0.304688, 0.371532 )
+position = Vector2( 1.13618, -15.2329 )
 texture = ExtResource( 2 )
+vframes = 27
+frame = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -10 )
-shape = SubResource( 1 )
+position = Vector2( -0.0360966, -2.7748 )
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 1.33292, 0.841846 )
+current = true
+limit_left = 0
+limit_top = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+anims/attack = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/run = SubResource( 5 )
+anims/run_attack = SubResource( 6 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 19 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 20 )
+
+[node name="hurtbox" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1.33292, 0.841846 )
+collision_layer = 64
+collision_mask = 0
+
+[node name="hutbox_shape" parent="hurtbox" index="0"]
+modulate = Color( 0.239216, 0.054902, 0.054902, 1 )
+position = Vector2( -1.36902, -4.24165 )
+shape = SubResource( 21 )
+
+[node name="PlayerStats" parent="." instance=ExtResource( 6 )]
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="axe/Hitbox"]
+[editable path="hurtbox"]

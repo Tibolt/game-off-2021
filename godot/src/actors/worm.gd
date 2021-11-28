@@ -1,6 +1,7 @@
 extends actor
 
 const deathEffect = preload("res://src/other/EnemyDeathEffect.tscn")
+onready var animation: AnimationPlayer = $AnimationPlayer
 
 enum {
 	IDLE,
@@ -28,18 +29,18 @@ func _physics_process(delta):
 			seek_player()
 		CHASE:
 			var player = playerDetection.player
-			if $Sprite.flip_h:
-				$Position2D.rotation_degrees = 180
-			else:
-				$Position2D.rotation_degrees = 0
 			if player != null:
-				var dir = (player.global_position - global_position).normalized()
+				var dir = -(player.global_position - global_position).normalized()
 				velocity = velocity.move_toward(dir * max_speed, speed * delta)
 				$Sprite.flip_h = velocity.x < 0
 			else:
 				state = IDLE
 				
 	velocity = move_and_slide(velocity)
+	if velocity > Vector2.ZERO:
+		animation.play("run")
+	else:
+		animation.play("idle")
 	#_animation(velocity)
 	
 func seek_player():
