@@ -4,7 +4,7 @@
 ## About 
 
 Short game made in Godot for [Game Off 2021] (https://itch.io/jam/game-off-2021/) Game Jam.
-You appear in small world, where you need to defend againts big bugs who are  protecting thier smaller brothers  
+You appear in small world, where you need to defend against big bugs who are  protecting their smaller brothers  
 
 ## How to play
 
