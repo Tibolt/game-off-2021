@@ -1,11 +1,14 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://src/actors/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/actors/player_anim.png" type="Texture" id=2]
 [ext_resource path="res://assets/objects/axe.png" type="Texture" id=3]
 [ext_resource path="res://src/other/Hitbox.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/other/hurtbox.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/other/PlayerStats.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sounds/player_attack.wav" type="AudioStream" id=6]
+
+[sub_resource type="Animation" id=22]
+resource_name = "run"
 
 [sub_resource type="Animation" id=1]
 resource_name = "slash"
@@ -46,6 +49,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/3/type = "audio"
+tracks/3/path = NodePath("../PlayerAttackSound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 6 )
+} ],
+"times": PoolRealArray( 0.25 )
+}
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 3.99496
@@ -79,6 +96,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 7, 0 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("axe/Node2D/axe_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4.4834, -0.884882 ), Vector2( 4.4834, -0.884882 ), Vector2( 4.4834, -1.86849 ), Vector2( 4.4834, -1.86849 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("axe/Node2D/axe_sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.6
@@ -94,6 +135,30 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 9, 10, 11, 12, 13, 14 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("axe/Node2D/axe_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.1452, -2.33436 ), Vector2( 3.1452, 0 ), Vector2( 3.53892, -1.61457 ), Vector2( 4.48387, -1.89048 ), Vector2( 2.15307, -0.62345 ), Vector2( 2.67733, -1.96863 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("axe/Node2D/axe_sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 13.0, 0.0, 0.0, 17.4 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -146,12 +211,12 @@ states/attack/position = Vector2( 1125, 140 )
 states/idle/node = SubResource( 8 )
 states/idle/position = Vector2( 910, 140 )
 states/run/node = SubResource( 9 )
-states/run/position = Vector2( 712, 140 )
+states/run/position = Vector2( 696, 140 )
 states/run_attack/node = SubResource( 10 )
 states/run_attack/position = Vector2( 813, 251.989 )
 transitions = [ "run", "idle", SubResource( 11 ), "idle", "run", SubResource( 12 ), "run", "run_attack", SubResource( 13 ), "run_attack", "run", SubResource( 14 ), "idle", "run_attack", SubResource( 15 ), "run_attack", "idle", SubResource( 16 ), "idle", "attack", SubResource( 17 ), "attack", "idle", SubResource( 18 ) ]
 start_node = "idle"
-graph_offset = Vector2( 3.32296e-05, -47.5224 )
+graph_offset = Vector2( 3.32296e-05, 54.3189 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=20]
 
@@ -169,10 +234,11 @@ position = Vector2( 1.33292, -6.04466 )
 [node name="Node2D" type="Node2D" parent="axe"]
 
 [node name="axe_sprite" type="Sprite" parent="axe/Node2D"]
-position = Vector2( 3.1452, -1.63987 )
+position = Vector2( 4.4834, -0.884882 )
 texture = ExtResource( 3 )
 
 [node name="AxeAnimationPlayer" type="AnimationPlayer" parent="axe"]
+anims/run = SubResource( 22 )
 anims/slash = SubResource( 1 )
 
 [node name="Hitbox" parent="axe" instance=ExtResource( 4 )]
@@ -188,14 +254,7 @@ frame = 7
 position = Vector2( -0.0360966, -2.7748 )
 shape = SubResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 1.33292, 0.841846 )
-current = true
-limit_left = 0
-limit_top = 0
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "idle"
 anims/attack = SubResource( 3 )
 anims/idle = SubResource( 4 )
 anims/run = SubResource( 5 )
@@ -217,7 +276,10 @@ modulate = Color( 0.239216, 0.054902, 0.054902, 1 )
 position = Vector2( -1.36902, -4.24165 )
 shape = SubResource( 21 )
 
-[node name="PlayerStats" parent="." instance=ExtResource( 6 )]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="PlayerAttackSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
 

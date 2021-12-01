@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/effects/hit_effect.png" type="Texture" id=1]
 [ext_resource path="res://src/other/Effect.gd" type="Script" id=2]
+[ext_resource path="res://assets/sounds/player_hurt.wav" type="AudioStream" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -15,14 +16,18 @@ region = Rect2( 0, 16, 16, 16 )
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
-"name": "Animation",
+"name": "Animate",
 "speed": 15.0
 } ]
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
 position = Vector2( -0.187286, -7.95363 )
 frames = SubResource( 3 )
-animation = "Animation"
+animation = "Animate"
 script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

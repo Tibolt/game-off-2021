@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/actors/tall_bug.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/actors/worm.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ui/health_ui.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "combo_2hit"
@@ -109,17 +110,15 @@ graph_offset = Vector2( -155.833, 0 )
 position = Vector2( 33, 19 )
 
 [node name="axe_sprite" parent="Player/axe/Node2D" index="0"]
-rotation = -0.151844
+position = Vector2( 4.4834, -0.884882 )
 
 [node name="AxeAnimationPlayer" parent="Player/axe" index="1"]
 anims/combo_2hit = SubResource( 1 )
 
-[node name="Camera2D" parent="Player" index="3"]
-limit_right = 320
-limit_bottom = 180
-limit_smoothed = true
+[node name="Sprite" parent="Player" index="1"]
+frame = 7
 
-[node name="AnimationTree" parent="Player" index="5"]
+[node name="AnimationTree" parent="Player" index="4"]
 tree_root = SubResource( 14 )
 parameters/playback = SubResource( 15 )
 
@@ -137,6 +136,10 @@ position = Vector2( 67.3249, 83.398 )
 
 [node name="worm" parent="." instance=ExtResource( 3 )]
 position = Vector2( 82.5, 161.25 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="health_ui" parent="CanvasLayer" instance=ExtResource( 4 )]
 
 [editable path="Player"]
 [editable path="Player/axe/Hitbox"]

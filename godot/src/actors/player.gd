@@ -3,18 +3,18 @@ extends actor
 enum{
 	IDLE,
 	MOVE,
-	ATTACK,
 	}
 var state = MOVE
 
-onready var sword: Node2D = get_node("axe")
-onready var sword_animation: AnimationPlayer = sword.get_node("AxeAnimationPlayer")
-onready var stats = $PlayerStats
+onready var axe: Node2D = get_node("axe")
+onready var axe_animation: AnimationPlayer = axe.get_node("AxeAnimationPlayer")
 onready var hurtbox = $hurtbox
+onready var playerAttackSound = $PlayerAttackSound
 
 func _ready():
-	stats.connect("no_health", self, "queue_free")
+	PlayerStats.connect("no_health", self, "queue_free")
 	state_machine = $AnimationTree.get("parameters/playback")
+	playerAttackSound.volume_db = GlobalStats.sound_volume
 
 func get_direction() -> Vector2:
 	return Vector2(
@@ -29,8 +29,6 @@ func _physics_process(delta: float):
 			idle_state(delta)
 		MOVE:
 			move_state(delta)
-		ATTACK:
-			pass
 
 
 func idle_state(delta:float):
@@ -80,28 +78,28 @@ func mouse_move():
 	elif mouse_direction.x < 0 and $Sprite.flip_h == false:
 		$Sprite.flip_h = true
 
-	sword.rotation = mouse_direction.angle()
-	if sword.scale.x == 1 and mouse_direction.x < 0:
-		sword.scale.x = -1
-	elif sword.scale.x == -1 and mouse_direction.x > 0:
-		sword.scale.x = 1
+	axe.rotation = mouse_direction.angle()
+	if axe.scale.x == 1 and mouse_direction.x < 0:
+		axe.scale.x = -1
+	elif axe.scale.x == -1 and mouse_direction.x > 0:
+		axe.scale.x = 1
 		
 
 # weapon moves with player movment	
 func weapon_move():
 	var direction = get_direction()
 	
-	if sword.scale.x == 1 and direction.x < 0:
-		sword.scale.x = -1
-	elif sword.scale.x == -1 and direction.x > 0:
-		sword.scale.x = 1
+	if axe.scale.x == 1 and direction.x < 0:
+		axe.scale.x = -1
+	elif axe.scale.x == -1 and direction.x > 0:
+		axe.scale.x = 1
 
 func attack_animation():
-	if Input.is_action_just_pressed("l_attack") and !sword_animation.is_playing():
-		sword_animation.play("slash")
+	if Input.is_action_just_pressed("l_attack") and !axe_animation.is_playing():
+		axe_animation.play("slash")
 
 
 func _on_hurtbox_area_entered(area):
-	stats.health -= 1
-	hurtbox.start_invicibility(0.5)
-	hurtbox.hitEffect()
+	PlayerStats.health -= 1
+	hurtbox.start_invicibility(1)
+	hurtbox.hit_effect()

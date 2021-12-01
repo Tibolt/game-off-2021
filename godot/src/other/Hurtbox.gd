@@ -3,8 +3,9 @@ extends Area2D
 
 const hitEffect = preload("res://src/other/HitEffect.tscn")
 
-var invincible = false setget set_invincible
 onready var timer = $Timer
+onready var shape = $hutbox_shape
+var invincible = false setget set_invincible
 
 signal invincible_started
 signal invincible_ended
@@ -18,7 +19,7 @@ func set_invincible(value):
 
 func start_invicibility(duration):
 	self.invincible = true
-	timer.set(duration)
+	timer.start(duration)
 
 func hit_effect():
 	var effect = hitEffect.instance()
@@ -32,8 +33,8 @@ func _on_Timer_timeout():
 
 
 func _on_hurtbox_invincible_started():
-	monitorable = false
+	shape.set_deferred("disabled", true)
 
 
 func _on_hurtbox_invincible_ended():
-	monitorable = true
+	shape.disabled = false
