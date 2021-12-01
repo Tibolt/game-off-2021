@@ -8,7 +8,7 @@ You appear in small world, where you need to defend against big bugs who are  pr
 
 ## How to play
 
-Check out web version on [itch.io] (),
+Check out web version on [itch.io] (https://itch.io/jam/game-off-2021/rate/1301152),
 
 Move   -	WASD	arrow keys
 Attack -	J	left mouse click
